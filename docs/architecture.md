@@ -59,7 +59,7 @@ La semantica de zod que hay que respetar al traducir: `.catch(x)` sustituye un v
 
 Un usuario de XMCL debe poder migrar sin perder nada:
 
-- Se lee la carpeta de datos de XMCL (la misma estructura: `instances/<carpeta>/instance.json`, `versions`, `libraries`, `assets`, `resourcepacks`...). El esquema de `instance.json` se respeta campo por campo (es la primera pieza portada); los campos desconocidos se conservan al reescribir cuando es posible.
+- Se lee la carpeta de datos de XMCL (la misma estructura: `instances/<carpeta>/instance.json`, `versions`, `libraries`, `assets`, `resourcepacks`...). El esquema de `instance.json` se respeta campo por campo (es la primera pieza portada); los campos desconocidos se descartan al leer, igual que zod, y un escritor que quiera conservarlos tendra que reinyectarlos.
 - `user.json` y las cuentas: se lee el formato de XMCL en lectura. Los tokens de Microsoft de XMCL **no** se reutilizan (pertenecen a otra aplicacion de Azure): el usuario inicia sesion de nuevo. Las skins y los perfiles si se importan.
 - Los ajustes (`setting.json`) se leen con los mismos nombres de campo.
 - La carpeta de datos de Zenith es propia y distinta de la de XMCL. Nunca se escribe en la de XMCL: la migracion copia, no mueve, y pide confirmacion.
