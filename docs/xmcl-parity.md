@@ -1,6 +1,6 @@
 # Inventario de paridad con XMCL
 
-Contrato de la traduccion de XMCL v0.73.1 (commit `aeb52403945f017a17f4014cb6542f73fa47dd15`) a Rust. Generado con `tools/gen_parity.py` a partir del arbol de git de XMCL: los tamanos son bytes de codigo fuente sin tests. Estado inicial de todo: `pendiente`. Las **exclusiones propuestas** son una propuesta de Claude y **solo el usuario puede aprobarlas**; hasta entonces cuentan como pendientes.
+Contrato de la traduccion de XMCL v0.73.1 (commit `aeb52403945f017a17f4014cb6542f73fa47dd15`) a Rust. Generado con `tools/gen_parity.py` a partir del arbol de git de XMCL: los tamanos son bytes de codigo fuente sin tests. Estado inicial de todo: `pendiente`. Las **exclusiones propuestas** son una propuesta de Claude y **solo el usuario puede aprobarlas**. Decision del usuario (2026-11-05): se portan solo las funciones que funcionen con Horizon/Zenith, y la interfaz debe ser la misma que la de XMCL. Con esa regla, las filas marcadas `excluir` quedan **aprobadas**; las marcadas `decidir` se resuelven abajo.
 
 Estados: `pendiente`, `portado`, `excluido` (solo con aprobacion del usuario), `decidir` (hay que preguntar).
 
@@ -61,14 +61,14 @@ Fuente: `xmcl-runtime-api/src/services/*Service.ts` (interfaz) y `xmcl-runtime/*
 | 38 | `MarketService` | Contrato del mercado de recursos (busqueda en Modrinth y CurseForge) | 0.8 KB | 4 | pendiente |
 | 39 | `BlueprintMarketService` | Mercado de planos y esquemas | 30.9 KB | 6 | pendiente |
 | 40 | `PeerService` | Multijugador P2P por WebRTC: iniciar, recibir, NAT, ICE | 41.3 KB | 6 | pendiente |
-| 41 | `PresenceService` | Presencia del jugador (que instancia juega) para amigos y Discord | 4.3 KB | 6 | decidir (Discord RPC) |
+| 41 | `PresenceService` | Presencia del jugador (que instancia juega) para amigos y Discord | 4.3 KB | 6 | pendiente (Discord RPC: se porta, decision del usuario) |
 | 42 | `RemoteServerService` | Desplegar y gestionar un servidor remoto por SSH | 44.2 KB | 6 | pendiente |
 | 43 | `ServerService` | Instalar y ejecutar un servidor local dedicado (vive en xmcl-electron-app) | 13.3 KB | 6 | pendiente |
 | 44 | `ServerStatusService` | Estado (ping, jugadores, MOTD) de servidores Minecraft | 5.4 KB | 4 | pendiente |
 | 45 | `BackupService` | Copias de seguridad y restauracion de instancias con transacciones | 91.0 KB | 6 | pendiente |
 | 46 | `BedrockService` | Descargar e iniciar Minecraft Bedrock (UWP) | 46.6 KB | 6 | pendiente (exclusion propuesta: Bedrock/UWP) |
 | 47 | `AgentService` | Chat con un agente de IA dentro del launcher (herramientas, documentos, historial) | 45.1 KB | 6 | pendiente |
-| 48 | `XmclAccountService` | Cuenta propia de XMCL (nube, DPoP, intercambio de credenciales) | 72.9 KB | 6 | decidir (cuenta de nube de XMCL, sin equivalente en Zenith) |
+| 48 | `XmclAccountService` | Cuenta propia de XMCL (nube, DPoP, intercambio de credenciales) | 72.9 KB | 6 | excluido (decision del usuario: sin equivalente en Zenith) |
 
 Total: 48 servicios, 1.63 MB.
 
@@ -98,7 +98,7 @@ Total: 48 servicios, 1.63 MB.
 | `@xmcl/client` | Tuberia de sockets de Minecraft y descubrimiento de servidores LAN | 31.7 KB | 1 | 4 | pendiente |
 | `@xmcl/core` | Parseo de version.json, argumentos y lanzamiento del juego | 81.6 KB | 6 | 2 | pendiente |
 | `@xmcl/curseforge` | API oficial de CurseForge | 25.9 KB | 1 | 4 | pendiente |
-| `@xmcl/discord-rpc` | Fork de discordjs/RPC | 58.8 KB | 0 | 6 | decidir |
+| `@xmcl/discord-rpc` | Fork de discordjs/RPC | 58.8 KB | 0 | 6 | pendiente |
 | `@xmcl/file-transfer` | Descargador de alto rendimiento (undici): rangos, reintentos, hash | 68.6 KB | 3 | 3 | pendiente |
 | `@xmcl/forge-site-parser` | Parser de la web de Forge | 7.4 KB | 1 | 3 | pendiente |
 | `@xmcl/game-data` | level.dat, servers.dat y datos de partida | 24.6 KB | 2 | 4 | pendiente |
@@ -744,3 +744,12 @@ Ya existe en el repositorio de Zenith (`zenith/bridge`) o se construye aqui; cad
 | Avisos de compatibilidad de mods: Funciona / Parcial / No funciona | Zenith | 4 | pendiente |
 | Marca y tema de Zenith | Zenith | 1 | pendiente |
 | Telemetria apagada por defecto y canal de actualizacion firmado | Zenith | 1 | pendiente |
+
+## Decisiones del usuario (2026-11-05)
+
+Regla: se porta **solo lo que funcione con Horizon/Zenith**, con la interfaz de XMCL tal cual (mismas pantallas, flujos y opciones) y el port completo.
+
+- Aprobadas como excluidas: `xmcl-electron-app` y `deskgap-app` (las sustituye el programa en Rust, sin perder sus funciones, que se reescriben), la telemetria y el canal de actualizacion de XMCL, y Bedrock/UWP.
+- `XmclAccountService` (cuenta de nube de XMCL): **excluida**, no tiene equivalente en Zenith.
+- Discord RPC y `PresenceService`: **se portan** (funcionan con cualquier juego, incluido Zenith); etapa 6.
+- Cargadores y mods Java (Forge, Fabric, Quilt, NeoForge, OptiFine, LabyMod): su interfaz se porta; que funcionen con Zenith depende del motor, y las instancias Java usan el juego original. Se confirma el alcance exacto en la etapa 3.
