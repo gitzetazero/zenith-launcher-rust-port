@@ -1,3 +1,5 @@
+> Archivado: Zenith Launcher es ahora un fork de XMCL: ver https://github.com/gitzetazero/zenith-launcher
+
 # Zenith Launcher
 
 **Estado: muy temprano.** Esto es una traduccion en curso, a Rust, de
