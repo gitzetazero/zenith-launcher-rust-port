@@ -1,0 +1,15 @@
+Zenith Launcher es una traduccion a Rust de X Minecraft Launcher (XMCL).
+
+Proyecto base:   Voxelum/x-minecraft-launcher
+                 https://github.com/Voxelum/x-minecraft-launcher
+Version base:    v0.73.1
+Commit base:     aeb52403945f017a17f4014cb6542f73fa47dd15
+Licencia base:   MIT, Copyright (c) 2023 ci010
+
+Este repositorio no contiene codigo de XMCL copiado tal cual: se traduce
+funcion por funcion a Rust y se conservan, adaptados, sus archivos de idioma
+(xmcl-keystone-ui/locales). Los tests de XMCL se traducen y sirven de
+especificacion. El texto de la licencia MIT de XMCL se conserva en LICENSE.
+
+Dependencias de terceros: ver Cargo.lock; sus licencias se listaran aqui
+cuando se publique una version.
