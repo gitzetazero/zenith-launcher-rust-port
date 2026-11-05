@@ -1,0 +1,13 @@
+[package]
+name = "zl-app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+gpui.workspace = true
+gpui_platform.workspace = true
+zl-ui = { path = "../zl-ui" }
+zl-core = { path = "../zl-core" }
